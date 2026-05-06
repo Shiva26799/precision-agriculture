@@ -211,27 +211,33 @@ nav {
 /* ── MAIN ── */
 .main {
   max-width: 920px;
-  margin: -2.5rem auto 3rem;
+  margin: 4rem auto 3rem;
   padding: 0 1.25rem;
+  position: relative;
+  z-index: 10;
 }
 
 /* ── TABS ── */
 .tab-bar {
-  display: flex;
+  display: none;
   gap: 6px;
-  background: var(--white);
+  background: var(--navy2);
   border-radius: var(--r2);
   padding: 6px;
-  box-shadow: var(--shadow);
+  box-shadow: none;
   margin-bottom: 1.25rem;
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
 }
-.tab-bar::-webkit-scrollbar { display: none; }
+
+.tab-bar::-webkit-scrollbar {
+  display: none;
+}
 
 .tab {
-  flex: 1;
-  padding: 10px;
+  flex: 0 0 auto;
+  min-width: 120px;
+  padding: 10px 16px;
   border-radius: var(--r);
   font-size: 13px;
   font-weight: 500;
@@ -239,13 +245,15 @@ nav {
   text-align: center;
   border: none;
   background: transparent;
-  color: var(--muted);
+  color: rgba(255, 255, 255, .5);
   transition: all .2s;
+  white-space: nowrap;
 }
 
 .tab.active {
-  background: var(--navy);
+  background: var(--blue);
   color: var(--white);
+  box-shadow: 0 4px 12px rgba(26, 111, 191, .4);
 }
 
 .tab-panel {
@@ -1096,12 +1104,18 @@ footer strong {
   .nav-pills {
     display: none;
   }
+
   .main {
-    margin-top: 1rem;
+    margin-top: 1.5rem;
   }
+
   .tab-bar {
+    display: flex;
     border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
   }
+
   .tab {
     padding: 10px 15px;
     font-size: 12px;
