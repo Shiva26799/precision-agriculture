@@ -1,7 +1,9 @@
 from flask import Flask, request, jsonify, render_template
+from flask_cors import CORS
 import joblib, numpy as np, os, sys
 
 app = Flask(__name__)
+CORS(app)
 sys.path.insert(0, os.path.dirname(__file__))
 from maharashtra_data import (MAHARASHTRA_DISTRICTS, MAHARASHTRA_REGIONS,
     REGION_CROP_SUGGESTIONS, get_district_defaults, get_districts_by_region)
