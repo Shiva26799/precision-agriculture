@@ -59,19 +59,15 @@ def build_input(data):
     }
     return np.array([[row[f] for f in feat_cols]])
 
-@app.route('/')
-def home():
-    return render_template('index.html',
-        districts=MAHARASHTRA_DISTRICTS,
-        regions=MAHARASHTRA_REGIONS)
+api_bp = Blueprint('api', __name__)
 
-@app.route('/district_defaults/<district>')
+@api_bp.route('/district_defaults/<district>')
 def district_defaults(district):
     d = get_district_defaults(district)
     if not d: return jsonify({'success':False,'error':'Not found'}), 404
     return jsonify({'success':True,'data':d})
 
-@app.route('/predict', methods=['POST'])
+@api_bp.route('/predict', methods=['POST'])
 def predict():
     try:
         data  = request.get_json()
@@ -89,7 +85,7 @@ def predict():
     except Exception as e:
         return jsonify({'success':False,'error':str(e)}), 400
 
-@app.route('/profit', methods=['POST'])
+@api_bp.route('/profit', methods=['POST'])
 def profit():
     try:
         d           = request.get_json()
@@ -125,7 +121,7 @@ def profit():
     except Exception as e:
         return jsonify({'success':False,'error':str(e)}), 400
 
-@app.route('/rescue', methods=['POST'])
+@api_bp.route('/rescue', methods=['POST'])
 def rescue():
     try:
         d      = request.get_json()
@@ -145,5 +141,14 @@ def rescue():
     except Exception as e:
         return jsonify({'success':False,'error':str(e)}), 400
 
+@app.route('/')
+def home():
+    return render_template('index.html',
+        districts=MAHARASHTRA_DISTRICTS,
+        regions=MAHARASHTRA_REGIONS)
+
+app.register_blueprint(api_bp, url_prefix='/api')
+
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)
+
