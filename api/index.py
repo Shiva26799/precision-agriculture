@@ -144,6 +144,8 @@ def rescue():
         return jsonify({'success':False,'error':str(e)}), 400
 
 app.register_blueprint(api_bp, url_prefix='/api')
+app.register_blueprint(api_bp, url_prefix='/')
+
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)
