@@ -4,6 +4,7 @@ import joblib, numpy as np, os, sys
 
 app = Flask(__name__)
 CORS(app)
+
 sys.path.insert(0, os.path.dirname(__file__))
 from maharashtra_data import (MAHARASHTRA_DISTRICTS, MAHARASHTRA_REGIONS,
     REGION_CROP_SUGGESTIONS, get_district_defaults, get_districts_by_region)
@@ -59,17 +60,15 @@ def build_input(data):
     }
     return np.array([[row[f] for f in feat_cols]])
 
-from flask import Blueprint, Flask, request, jsonify
-
-api_bp = Blueprint('api', __name__)
-
-@api_bp.route('/district_defaults/<district>')
+@app.route('/api/district_defaults/<district>')
+@app.route('/district_defaults/<district>')
 def district_defaults(district):
     d = get_district_defaults(district)
     if not d: return jsonify({'success':False,'error':'Not found'}), 404
     return jsonify({'success':True,'data':d})
 
-@api_bp.route('/predict', methods=['POST'])
+@app.route('/api/predict', methods=['POST'])
+@app.route('/predict', methods=['POST'])
 def predict():
     try:
         data  = request.get_json()
@@ -87,7 +86,8 @@ def predict():
     except Exception as e:
         return jsonify({'success':False,'error':str(e)}), 400
 
-@api_bp.route('/profit', methods=['POST'])
+@app.route('/api/profit', methods=['POST'])
+@app.route('/profit', methods=['POST'])
 def profit():
     try:
         d           = request.get_json()
@@ -123,7 +123,8 @@ def profit():
     except Exception as e:
         return jsonify({'success':False,'error':str(e)}), 400
 
-@api_bp.route('/rescue', methods=['POST'])
+@app.route('/api/rescue', methods=['POST'])
+@app.route('/rescue', methods=['POST'])
 def rescue():
     try:
         d      = request.get_json()
@@ -142,10 +143,6 @@ def rescue():
         return jsonify({'success':True,'suggestions':sugg})
     except Exception as e:
         return jsonify({'success':False,'error':str(e)}), 400
-
-app.register_blueprint(api_bp, url_prefix='/api')
-app.register_blueprint(api_bp, url_prefix='/')
-
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)
