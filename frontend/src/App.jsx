@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useTranslation } from './components/LanguageContext';
 
-const API_BASE = '/api';
+const API_BASE = import.meta.env.VITE_API_URL || '/api';
 
 const REGION_DISTRICTS = {
   'Konkan':               ['mumbai','mumbai_suburban','thane','raigad','ratnagiri','sindhudurg','palghar'],
